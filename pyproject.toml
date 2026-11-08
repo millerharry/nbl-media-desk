@@ -1,0 +1,79 @@
+[project]
+name = "nbl-media-desk"
+version = "0.0.1"
+description = "An AI post-game newsroom: grounded, fact-checked recaps and social content from basketball box scores."
+readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE"]
+authors = [{ name = "Harry Miller" }]
+requires-python = ">=3.12"
+keywords = ["basketball", "nbl", "llm", "claude", "mcp", "fact-checking", "agents"]
+classifiers = [
+  "Development Status :: 2 - Pre-Alpha",
+  "Intended Audience :: Developers",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "Typing :: Typed",
+]
+dependencies = [
+  "anthropic>=2.6,<3",
+  "mcp>=2.3,<3",
+  "pydantic>=2.14,<3",
+  "pydantic-settings>=2.16,<3",
+  "httpx>=0.28,<1",
+]
+
+[project.urls]
+Homepage = "https://github.com/millerharry/nbl-media-desk"
+Issues = "https://github.com/millerharry/nbl-media-desk/issues"
+Changelog = "https://github.com/millerharry/nbl-media-desk/blob/main/CHANGELOG.md"
+
+[project.scripts]
+nbl-desk = "nbl_media_desk.cli:main"
+
+[dependency-groups]
+dev = [
+  "mypy>=2.4",
+  "pytest>=9.2",
+  "pytest-cov>=7.0",
+  "ruff>=0.17",
+  "pre-commit>=4.3",
+]
+
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/nbl_media_desk"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["src", "tests", "scripts"]
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "B", "UP", "SIM", "RUF", "N", "S", "PT", "C4", "PL", "ANN"]
+ignore = ["PLR2004"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101", "ANN", "PLR2004"]
+
+[tool.mypy]
+strict = true
+python_version = "3.12"
+mypy_path = "src"
+files = ["src", "tests", "scripts"]
+plugins = ["pydantic.mypy"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-ra --strict-markers --strict-config"
+markers = ["live: hits the network or the Claude API (skipped in CI)"]
+
+[tool.coverage.run]
+source = ["nbl_media_desk"]
+branch = true

@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+build/
+dist/
+*.egg-info/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# Secrets (ADR: never commit secrets)
+.env
+.env.*
+!.env.example
+
+# Third-party game data and run records (ADR-0006, ADR-0007)
+.cache/
+evals/results/
+
+# OS / editors
+.DS_Store
+.idea/
+.vscode/

@@ -1,0 +1,28 @@
+name: Bug report
+description: Something is broken or produced an incorrect fact
+labels: [bug, triage]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: Include the command you ran and the output. Never paste API keys.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect?
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options: [Data / adapters, Fact engine, MCP server, Agent / writing, Fact-checker, Evals, n8n / Slack, Dashboard, Docs]
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version (`nbl-desk --version`) and Python version

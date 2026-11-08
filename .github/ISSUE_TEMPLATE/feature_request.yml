@@ -1,0 +1,21 @@
+name: Feature request
+description: Suggest a storyline type, adapter, or improvement
+labels: [enhancement, triage]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What media-team or developer problem would this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+  - type: checkboxes
+    id: adr
+    attributes:
+      label: Design impact
+      options:
+        - label: This changes an accepted decision in docs/adr/ (a new ADR will be needed)
