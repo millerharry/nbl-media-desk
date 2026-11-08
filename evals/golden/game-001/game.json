@@ -1,6 +1,7 @@
 {
   "schema_version": 1,
   "game_id": "golden-001",
+  "source": "fixture",
   "synthetic": true,
   "competition": "Synthetic League",
   "season": "2026-27",
@@ -10,12 +11,13 @@
   "home": {
     "name": "Harbour City Hawks",
     "code": "HCH",
-    "quarter_scores": [
+    "period_scores": [
       22,
       25,
       20,
       27
     ],
+    "final_score": 94,
     "players": [
       {
         "name": "Jalen Okafor",
@@ -143,18 +145,18 @@
         "blocks": 0,
         "turnovers": 2
       }
-    ],
-    "final_score": 94
+    ]
   },
   "away": {
     "name": "Inland Rivers Rams",
     "code": "IRR",
-    "quarter_scores": [
+    "period_scores": [
       24,
       21,
       26,
       17
     ],
+    "final_score": 88,
     "players": [
       {
         "name": "Dante Moore",
@@ -282,7 +284,6 @@
         "blocks": 1,
         "turnovers": 1
       }
-    ],
-    "final_score": 88
+    ]
   }
 }

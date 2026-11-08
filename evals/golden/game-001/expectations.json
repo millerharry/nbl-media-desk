@@ -1,10 +1,22 @@
 {
   "game_id": "golden-001",
   "must_mention": [
-    {"id": "result", "description": "Hawks beat the Rams 94-88 at home"},
-    {"id": "comeback", "description": "Hawks trailed 71-67 after three quarters and won the fourth quarter 27-17"},
-    {"id": "top-scorer", "description": "Jalen Okafor led all scorers with 28 points"},
-    {"id": "double-double", "description": "Sam Petrovic had a double-double: 12 points and 11 rebounds"}
+    {
+      "id": "result",
+      "description": "Hawks beat the Rams 94-88 at home"
+    },
+    {
+      "id": "comeback",
+      "description": "Hawks trailed 71-67 after three quarters and won the fourth quarter 27-17"
+    },
+    {
+      "id": "top-scorer",
+      "description": "Jalen Okafor led all scorers with 28 points"
+    },
+    {
+      "id": "double-double",
+      "description": "Sam Petrovic had a double-double: 12 points and 11 rebounds"
+    }
   ],
   "correct_sentences": [
     "The Harbour City Hawks beat the Inland Rivers Rams 94-88.",
@@ -13,11 +25,114 @@
     "Liam O'Brien hit four three-pointers for the Rams."
   ],
   "mutations": [
-    {"kind": "wrong_number", "sentence": "Jalen Okafor scored 31 points on 10-of-19 shooting.", "expected_verdict": "contradicted"},
-    {"kind": "wrong_player", "sentence": "Dante Moore led all scorers with 28 points.", "expected_verdict": "contradicted"},
-    {"kind": "swapped_teams", "sentence": "The Inland Rivers Rams beat the Harbour City Hawks 94-88.", "expected_verdict": "contradicted"},
-    {"kind": "invented_record", "sentence": "Okafor's 28 points were a career high.", "expected_verdict": "unsupported"},
-    {"kind": "wrong_comparative", "sentence": "The Hawks led at every quarter break.", "expected_verdict": "contradicted"},
-    {"kind": "invented_person", "sentence": "Coach Daniel Reyes praised the bench after the game.", "expected_verdict": "unsupported"}
+    {
+      "kind": "wrong_number",
+      "sentence": "Jalen Okafor scored 31 points on 10-of-19 shooting.",
+      "expected_verdict": "contradicted"
+    },
+    {
+      "kind": "wrong_player",
+      "sentence": "Dante Moore led all scorers with 28 points.",
+      "expected_verdict": "contradicted"
+    },
+    {
+      "kind": "swapped_teams",
+      "sentence": "The Inland Rivers Rams beat the Harbour City Hawks 94-88.",
+      "expected_verdict": "contradicted"
+    },
+    {
+      "kind": "invented_record",
+      "sentence": "Okafor's 28 points were a career high.",
+      "expected_verdict": "unsupported"
+    },
+    {
+      "kind": "wrong_comparative",
+      "sentence": "The Hawks led at every quarter break.",
+      "expected_verdict": "contradicted"
+    },
+    {
+      "kind": "invented_person",
+      "sentence": "Coach Daniel Reyes praised the bench after the game.",
+      "expected_verdict": "unsupported"
+    }
+  ],
+  "expected_facts": [
+    {
+      "supports": "result",
+      "subject": "game",
+      "metric": "winner",
+      "scope": "game",
+      "value": "Harbour City Hawks"
+    },
+    {
+      "supports": "result",
+      "subject": "Harbour City Hawks",
+      "metric": "final_score",
+      "scope": "game",
+      "value": 94
+    },
+    {
+      "supports": "result",
+      "subject": "Inland Rivers Rams",
+      "metric": "final_score",
+      "scope": "game",
+      "value": 88
+    },
+    {
+      "supports": "comeback",
+      "subject": "Harbour City Hawks",
+      "metric": "trailed_at_break_and_won",
+      "scope": "after_q3",
+      "value": 4
+    },
+    {
+      "supports": "comeback",
+      "subject": "game",
+      "metric": "period_winner",
+      "scope": "q4",
+      "value": "Harbour City Hawks"
+    },
+    {
+      "supports": "comeback",
+      "subject": "Harbour City Hawks",
+      "metric": "period_points",
+      "scope": "q4",
+      "value": 27
+    },
+    {
+      "supports": "comeback",
+      "subject": "Inland Rivers Rams",
+      "metric": "period_points",
+      "scope": "q4",
+      "value": 17
+    },
+    {
+      "supports": "top-scorer",
+      "subject": "Jalen Okafor",
+      "metric": "game_high_points",
+      "scope": "game",
+      "value": 28
+    },
+    {
+      "supports": "double-double",
+      "subject": "Sam Petrovic",
+      "metric": "double_double",
+      "scope": "game",
+      "value": true
+    },
+    {
+      "supports": "double-double",
+      "subject": "Sam Petrovic",
+      "metric": "points",
+      "scope": "game",
+      "value": 12
+    },
+    {
+      "supports": "double-double",
+      "subject": "Sam Petrovic",
+      "metric": "rebounds",
+      "scope": "game",
+      "value": 11
+    }
   ]
 }

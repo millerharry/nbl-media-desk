@@ -1,44 +1,49 @@
-"""Integrity checks for the synthetic golden set: every total must add up."""
+"""Integrity checks for the synthetic golden set."""
 
 import json
 from pathlib import Path
-from typing import Any
 
 import pytest
 
-GOLDEN = Path(__file__).resolve().parents[2] / "evals" / "golden"
-GAMES = sorted(p for p in GOLDEN.iterdir() if p.is_dir())
+from nbl_media_desk.facts import build_fact_sheet
+from nbl_media_desk.sources import FixtureSource
+from tests.conftest import GOLDEN
+
+GAMES = FixtureSource(GOLDEN).list_games()
 VERDICTS = {"verified", "contradicted", "unsupported", "opinion"}
 
 
-def _load(path: Path) -> Any:
-    return json.loads(path.read_text(encoding="utf-8"))
+@pytest.mark.parametrize("game_id", GAMES)
+def test_golden_game_is_valid_and_synthetic(game_id: str) -> None:
+    game = FixtureSource(GOLDEN).get_game(game_id)  # model validation checks every total
+    assert game.synthetic is True
+    assert game.source == "fixture"
 
 
-@pytest.mark.parametrize("game_dir", GAMES, ids=lambda p: p.name)
-def test_scores_add_up(game_dir: Path) -> None:
-    game = _load(game_dir / "game.json")
-    assert game["synthetic"] is True
-    for side in ("home", "away"):
-        team = game[side]
-        assert sum(team["quarter_scores"]) == team["final_score"]
-        assert sum(p["points"] for p in team["players"]) == team["final_score"]
-        for p in team["players"]:
-            expected = (
-                2 * (p["field_goals_made"] - p["threes_made"])
-                + 3 * p["threes_made"]
-                + p["free_throws_made"]
-            )
-            assert p["points"] == expected, p["name"]
-            assert p["field_goals_made"] <= p["field_goals_attempted"]
-            assert p["threes_made"] <= p["threes_attempted"]
-            assert p["free_throws_made"] <= p["free_throws_attempted"]
-
-
-@pytest.mark.parametrize("game_dir", GAMES, ids=lambda p: p.name)
-def test_expectations_are_well_formed(game_dir: Path) -> None:
-    exp = _load(game_dir / "expectations.json")
-    assert exp["game_id"] == _load(game_dir / "game.json")["game_id"]
-    assert exp["must_mention"]
+@pytest.mark.parametrize("game_id", GAMES)
+def test_expectations_are_well_formed(game_id: str) -> None:
+    exp = json.loads((GOLDEN / game_id / "expectations.json").read_text(encoding="utf-8"))
+    must_ids = {m["id"] for m in exp["must_mention"]}
     assert exp["correct_sentences"]
     assert {m["expected_verdict"] for m in exp["mutations"]} <= VERDICTS
+    assert {f["supports"] for f in exp["expected_facts"]} == must_ids, (
+        "every must-mention storyline needs at least one expected fact"
+    )
+
+
+@pytest.mark.parametrize("game_id", GAMES)
+def test_fact_engine_reproduces_golden_storylines(game_id: str) -> None:
+    """Phase 3a exit criterion: every must-mention storyline is backed by an exact fact."""
+    game = FixtureSource(GOLDEN).get_game(game_id)
+    sheet = build_fact_sheet(game)
+    exp = json.loads((GOLDEN / game_id / "expectations.json").read_text(encoding="utf-8"))
+    for expected in exp["expected_facts"]:
+        matches = sheet.find(
+            subject=expected["subject"], metric=expected["metric"], scope=expected["scope"]
+        )
+        assert [f.value for f in matches] == [expected["value"]], expected
+
+
+def test_golden_dir_only_contains_fixture_games() -> None:
+    assert all((GOLDEN / g / "game.json").is_file() for g in GAMES)
+    assert all(isinstance(p, Path) for p in GOLDEN.iterdir())

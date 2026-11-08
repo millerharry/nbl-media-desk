@@ -27,6 +27,10 @@ periodType, periodsMax, scorers, timeline, tm, totalTimeAdded, totallds
 - `pl[*]`: name, shirt number, starter flag, minutes, full shooting splits, rebounds, assists, steals, blocks, turnovers, fouls, plus-minus, efficiency.
 - `pbp[]`: 615 events for this game. Each has the game clock, period, running score (`s1`, `s2`), lead, team, player, `actionType`/`subType`, `success` and `qualifier`. The last event is `actionType: "game", subType: "end"`, which is a clean "final whistle" signal.
 
+**Event ordering.** `actionNumber` is the scorer's entry order, not game-time order. Late corrections (for example an assist added after the play) keep the original play's clock and score, so ordering by `actionNumber` makes the score appear to go backwards. Sorting by period, then game clock, then `actionNumber` removes every such case in the sample game.
+
+**Cross-check.** Our flow stats, computed from play-by-play, match the feed's own team totals (`tot_sLeadChanges`, `tot_sBiggestLead`, `tot_sBiggestScoringRun`). FIBA's `tot_sTimesScoresLevel` also counts 0-0 at tip-off, so it's one higher than our "times tied". This is enforced by `tests/contract/test_livestats_live.py`.
+
 **Strengths.** Official, rich, near real time during games, and has everything v1 needs in one document.
 
 **Risks.**

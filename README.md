@@ -48,7 +48,8 @@ git clone https://github.com/millerharry/nbl-media-desk && cd nbl-media-desk
 make install
 cp .env.example .env   # add ANTHROPIC_API_KEY for live runs
 make check             # lint, types, tests, data guard
-uv run nbl-desk --version
+uv run nbl-desk facts game-001          # fact sheet for the synthetic golden game
+uv run nbl-desk facts 2120057 --source livestats   # a real NBL game, fetched once into .cache/
 ```
 
 ## Roadmap
@@ -57,7 +58,7 @@ uv run nbl-desk --version
 |---|---|---|
 | Design | Design doc, ADRs, data research | ✅ |
 | Scaffold | Tooling, CI, community files, golden set | ✅ |
-| v0.1 core | Canonical model and adapters → fact engine → MCP server → agent → fact-checker → evals | ⏳ |
+| v0.1 core | ✅ Canonical model, adapters and fact engine (3a) → MCP server → agent → fact-checker → evals | ⏳ |
 | v0.2 integrations | Final-siren watcher, n8n workflow, Slack approval | |
 | v0.3 monitoring | Dashboard: fact-check failure rate, $/game, p95 latency, cache hit rate | |
 | v1.0 | Demo, docs polish, tagged release | |
