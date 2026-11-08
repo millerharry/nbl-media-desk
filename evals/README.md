@@ -16,6 +16,7 @@ evals/
 | Suite | Status |
 |---|---|
 | Golden data integrity (scores add up) | ✅ runs in CI (`tests/unit/test_golden_set.py`) |
+| Fact engine reproduces every must-mention storyline (`expected_facts`) | ✅ runs in CI |
 | Fact-checker recall on `mutations` | Phase 3d |
 | Fact-checker precision on `correct_sentences` | Phase 3d |
 | End-to-end groundedness | Phase 3e |
@@ -25,4 +26,5 @@ evals/
 
 1. Copy `golden/game-001/`, use fictional teams and players only.
 2. Make every total add up (the integrity test enforces this).
-3. Add at least one mutation for each `kind` you want covered.
+3. Add `expected_facts` (subject, metric, scope, value) for every must-mention storyline.
+4. Add at least one mutation for each `kind` you want covered.
